@@ -3,17 +3,68 @@
   const USER = 'bacoinz';
   const SELF = (USER + '.github.io').toLowerCase();
   const CACHE_KEY = 'baco-repos-v1';
+  const LANG_KEY = 'baco-lang';
   const CACHE_MS = 6 * 3600 * 1000;
   const SLIDE_MS = 1200;
   const IMG_RE = /\.(png|jpe?g|webp|gif)$/i;
 
-  /* ---------- bio toggle ---------- */
-  const tagline = document.getElementById('tagline');
-  const bio = document.getElementById('bio');
-  tagline.addEventListener('click', () => {
-    const open = bio.classList.toggle('open');
-    tagline.setAttribute('aria-expanded', String(open));
-  });
+  /* ---------- i18n ---------- */
+  const I18N = {
+    en: {
+      alt: 'Portrait of Baco',
+      tagline: 'A musician who does games and apps with the help of AI, for fun, for free ✌️',
+      bio1: "Hi, I'm Rodrigo, better known as Baco on the internet and in the music world.",
+      bio2: "I'm a nerdy musician who has always loved technology and turning my passions into random little creations. This AI era came along to fulfil my deepest wish: to create more, faster and better than ever.",
+      bio3: 'Everything I make with AI is, and always will be, free (a few projects may have some ads here and there). I make it for people, not for personal gain.',
+      bio4: "That said, if you'd like to support me with a small contribution, you can always buy me a coffee on Ko-fi ☕",
+      kofi: 'Support me on Ko-fi',
+      social: 'Social networks',
+      music: 'My music',
+      open: 'Open to everyone',
+      made: "Things I've <span class=\"hl\">made</span>",
+      all: 'All', apps: 'Apps', games: 'Games',
+      loading: 'Loading projects…',
+      empty: 'Nothing here yet.',
+      footer: 'Made with AI, for fun, for free · © Baco',
+      app: 'App', game: 'Game',
+      goto: 'Go to', website: 'Website', pages: 'GitHub Pages', openapp: 'Open app', repo: 'GitHub repo', source: 'source code',
+      close: 'Close', prev: 'Previous screenshot', next: 'Next screenshot', choose: 'choose where to go',
+      cover: 'cover', shot: 'screenshot'
+    },
+    pt: {
+      alt: 'Retrato do Baco',
+      tagline: 'Um músico que faz jogos e apps com a ajuda da IA, por diversão e de graça ✌️',
+      bio1: 'Olá, sou o Rodrigo, mais conhecido como Baco na internet e no mundo da música.',
+      bio2: 'Sou um músico nerd que sempre teve paixão por tecnologia e por criar coisas aleatórias a partir das minhas paixões. Esta era da IA veio realizar o meu maior desejo: criar cada vez mais, e com mais eficiência e qualidade.',
+      bio3: 'Tudo o que faço com IA é, e será sempre, gratuito (alguns projetos podem ter anúncios aqui e ali). Faço-o para as pessoas, não para ganho pessoal.',
+      bio4: 'Ainda assim, se quiseres contribuir com um pequeno apoio, podes sempre oferecer-me um café no Ko-fi ☕',
+      kofi: 'Apoia-me no Ko-fi',
+      social: 'Redes sociais',
+      music: 'A minha música',
+      open: 'Aberto a todos',
+      made: 'Coisas que <span class="hl">fiz</span>',
+      all: 'Todos', apps: 'Apps', games: 'Jogos',
+      loading: 'A carregar projetos…',
+      empty: 'Ainda não há nada aqui.',
+      footer: 'Feito com IA, por diversão e de graça · © Baco',
+      app: 'App', game: 'Jogo',
+      goto: 'Ir para', website: 'Site', pages: 'GitHub Pages', openapp: 'Abrir app', repo: 'Repositório GitHub', source: 'código-fonte',
+      close: 'Fechar', prev: 'Screenshot anterior', next: 'Screenshot seguinte', choose: 'escolhe para onde ir',
+      cover: 'capa', shot: 'screenshot'
+    }
+  };
+  const PT_TZ = /^(Europe\/Lisbon|Atlantic\/(Azores|Madeira)|America\/(Sao_Paulo|Bahia|Belem|Fortaleza|Recife|Maceio|Araguaina|Santarem|Manaus|Boa_Vista|Porto_Velho|Cuiaba|Campo_Grande|Rio_Branco|Eirunepe|Noronha))$/;
+  function detectLang() {
+    try {
+      const saved = localStorage.getItem(LANG_KEY);
+      if (saved === 'en' || saved === 'pt') return saved;
+    } catch { /* ignore */ }
+    let tz = '';
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch { /* ignore */ }
+    return PT_TZ.test(tz) ? 'pt' : 'en';
+  }
+  let lang = detectLang();
+  const t = (k) => I18N[lang][k];
 
   /* ---------- helpers ---------- */
   const el = (tag, cls, html) => {
@@ -28,6 +79,24 @@
     get() { try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch { return null; } },
     set(v) { try { localStorage.setItem(CACHE_KEY, JSON.stringify(v)); } catch { /* ignore */ } }
   };
+
+  /* ---------- static text ---------- */
+  const tagline = document.getElementById('tagline');
+  const bio = document.getElementById('bio');
+  const langBtns = [...document.querySelectorAll('.lang button')];
+
+  function applyStatic() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach((n) => { n.textContent = t(n.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-html]').forEach((n) => { n.innerHTML = t(n.dataset.i18nHtml); });
+    document.querySelectorAll('[data-i18n-alt]').forEach((n) => { n.alt = t(n.dataset.i18nAlt); });
+    langBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  }
+
+  tagline.addEventListener('click', () => {
+    const open = bio.classList.toggle('open');
+    tagline.setAttribute('aria-expanded', String(open));
+  });
 
   /* ---------- data ---------- */
   function pickShots(files) {
@@ -68,7 +137,11 @@
   }
 
   /* ---------- cards ---------- */
-  const cards = [];
+  const grid = document.getElementById('grid');
+  const tabs = [...document.querySelectorAll('.tabs button')];
+  let projects = [];
+  let cards = [];
+  let filter = 'all';
   let openCard = null;
 
   function closeMenu() {
@@ -78,31 +151,35 @@
   function destinations(p) {
     const pages = p.has_pages ? `https://${SELF}/${p.name}/` : '';
     const out = [];
-    if (pages) out.push({ label: 'Website', hint: 'GitHub Pages', href: pages });
+    if (pages) out.push({ label: t('website'), hint: t('pages'), href: pages });
     const hp = p.homepage && p.homepage.replace(/\/?$/, '/') !== pages ? p.homepage : '';
-    if (hp) out.push({ label: 'Open app', hint: new URL(hp).hostname, href: hp });
-    out.push({ label: 'GitHub repo', hint: 'source code', href: `https://github.com/${USER}/${p.name}` });
+    if (hp) out.push({ label: t('openapp'), hint: new URL(hp).hostname, href: hp });
+    out.push({ label: t('repo'), hint: t('source'), href: `https://github.com/${USER}/${p.name}` });
     return out;
+  }
+
+  function avatar(name) {
+    return el('span', 'ic av', esc(name.trim().charAt(0).toUpperCase()));
   }
 
   function buildCard(p) {
     const card = el('article', 'card');
     card.tabIndex = 0;
     card.setAttribute('role', 'button');
-    card.setAttribute('aria-label', `${p.title}: choose where to go`);
+    card.setAttribute('aria-label', `${p.title}: ${t('choose')}`);
     card.dataset.cat = p.category;
 
     const media = el('div', 'media');
     const imgs = p.shots.map((n, i) => {
       const im = el('img', 's' + (i === 0 ? ' on' : ''));
-      im.alt = i === 0 ? `${p.title} cover` : `${p.title} screenshot ${i + 1}`;
+      im.alt = i === 0 ? `${p.title} ${t('cover')}` : `${p.title} ${t('shot')} ${i + 1}`;
       im.decoding = 'async';
       const src = raw(p.name, p.branch, 'docs/screenshots/' + n);
       if (i === 0) { im.loading = 'lazy'; im.src = src; } else { im.dataset.src = src; }
       media.appendChild(im);
       return im;
     });
-    media.appendChild(el('span', 'badge', p.category === 'game' ? 'Game' : 'App'));
+    media.appendChild(el('span', 'badge', esc(p.category === 'game' ? t('game') : t('app'))));
     const dots = el('div', 'dots');
     p.shots.forEach((_, i) => dots.appendChild(el('i', i === 0 ? 'on' : '')));
     media.appendChild(dots);
@@ -131,7 +208,7 @@
       ['l', 'r'].forEach((d) => {
         const b = el('button', 'nav ' + d, d === 'l' ? '‹' : '›');
         b.type = 'button';
-        b.setAttribute('aria-label', d === 'l' ? 'Previous screenshot' : 'Next screenshot');
+        b.setAttribute('aria-label', d === 'l' ? t('prev') : t('next'));
         b.addEventListener('click', (e) => { e.stopPropagation(); preload(); show(idx + (d === 'l' ? -1 : 1)); });
         media.appendChild(b);
       });
@@ -146,10 +223,10 @@
     } else title.appendChild(avatar(p.title));
     title.appendChild(el('h3', '', esc(p.title)));
     info.appendChild(title);
-    info.appendChild(el('p', 'desc', esc(p.description)));
+    info.appendChild(el('p', 'desc', esc(lang === 'pt' && p.description_pt ? p.description_pt : p.description)));
 
     const menu = el('div', 'menu');
-    menu.appendChild(el('div', 'mt', 'Go to'));
+    menu.appendChild(el('div', 'mt', esc(t('goto'))));
     destinations(p).forEach((d) => {
       const a = el('a', '', `<span>${esc(d.label)}</span><small>${esc(d.hint)}</small>`);
       a.href = d.href; a.target = '_blank'; a.rel = 'noopener';
@@ -157,7 +234,7 @@
       menu.appendChild(a);
     });
     const x = el('button', 'x', '×');
-    x.type = 'button'; x.setAttribute('aria-label', 'Close');
+    x.type = 'button'; x.setAttribute('aria-label', t('close'));
     x.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); card.focus(); });
     menu.appendChild(x);
 
@@ -174,29 +251,42 @@
     return card;
   }
 
-  function avatar(name) {
-    return el('span', 'ic av', esc(name.trim().charAt(0).toUpperCase()));
-  }
-
   document.addEventListener('click', (e) => { if (openCard && !openCard.contains(e.target)) closeMenu(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && openCard) { const c = openCard; closeMenu(); c.focus(); } });
 
-  /* ---------- filters ---------- */
-  const grid = document.getElementById('grid');
-  const tabs = [...document.querySelectorAll('.tabs button')];
   function applyFilter(f) {
+    filter = f;
     closeMenu();
-    tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.f === f)));
+    tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.f === f)));
     cards.forEach((c) => { c.hidden = !(f === 'all' || c.dataset.cat === f); });
   }
-  tabs.forEach((t) => t.addEventListener('click', () => applyFilter(t.dataset.f)));
+  tabs.forEach((b) => b.addEventListener('click', () => applyFilter(b.dataset.f)));
+
+  function render() {
+    closeMenu();
+    grid.innerHTML = '';
+    cards = [];
+    if (!projects.length) { grid.appendChild(el('p', 'state', esc(t('empty')))); return; }
+    projects.forEach((p) => { const c = buildCard(p); cards.push(c); grid.appendChild(c); });
+    applyFilter(filter);
+  }
+
+  /* ---------- language switch ---------- */
+  langBtns.forEach((b) => b.addEventListener('click', () => {
+    if (b.dataset.lang === lang) return;
+    lang = b.dataset.lang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch { /* ignore */ }
+    applyStatic();
+    if (projects.length) render();
+  }));
 
   /* ---------- init ---------- */
+  applyStatic();
   (async () => {
     let cfg = { overrides: {}, fallback: [] };
     try { cfg = await (await fetch('projects.json')).json(); } catch { /* use empty */ }
     const data = await load(cfg);
-    const projects = data.map((r) => {
+    projects = data.map((r) => {
       const o = cfg.overrides[r.name] || {};
       if (o.hide) return null;
       return {
@@ -204,13 +294,11 @@
         title: o.title || r.name.replace(/[-_]/g, ' '),
         category: o.category || 'app',
         description: o.description || r.description || '',
+        description_pt: o.description_pt || '',
         iconUrl: o.icon ? raw(r.name, r.branch || 'main', o.icon) : '',
         shots: r.shots && r.shots.length ? r.shots : []
       };
     }).filter(Boolean);
-
-    grid.innerHTML = '';
-    if (!projects.length) { grid.appendChild(el('p', 'state', 'Nothing here yet.')); return; }
-    projects.forEach((p) => { const c = buildCard(p); cards.push(c); grid.appendChild(c); });
+    render();
   })();
 })();
