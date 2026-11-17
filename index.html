@@ -13,7 +13,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<!-- GitHub Pages caches files for 10 min, so CSS/JS are requested with a fresh query string on every load -->
+<script>document.write('<link rel="stylesheet" href="styles.css?v='+Date.now()+'">')</script>
+<noscript><link rel="stylesheet" href="styles.css"></noscript>
 </head>
 <body>
 <div class="lang" role="group" aria-label="Language">
@@ -82,6 +84,6 @@
     <a href="https://ko-fi.com/bacoinz" target="_blank" rel="noopener">Ko-fi</a>
   </div>
 </footer>
-<script src="app.js"></script>
+<script>document.write('<script src="app.js?v='+Date.now()+'"><'+'/script>')</script>
 </body>
 </html>

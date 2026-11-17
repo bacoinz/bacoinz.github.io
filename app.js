@@ -2,9 +2,9 @@
   'use strict';
   const USER = 'bacoinz';
   const SELF = (USER + '.github.io').toLowerCase();
-  const CACHE_KEY = 'baco-repos-v1';
+  const CACHE_KEY = 'baco-repos-v2';
   const LANG_KEY = 'baco-lang';
-  const CACHE_MS = 6 * 3600 * 1000;
+  const CACHE_MS = 10 * 60 * 1000;
   const SLIDE_MS = 1200;
   const IMG_RE = /\.(png|jpe?g|webp|gif)$/i;
 
@@ -297,7 +297,7 @@
   applyStatic();
   (async () => {
     let cfg = { overrides: {}, fallback: [] };
-    try { cfg = await (await fetch('projects.json')).json(); } catch { /* use empty */ }
+    try { cfg = await (await fetch('projects.json?v=' + Date.now(), { cache: 'no-store' })).json(); } catch { /* use empty */ }
     const data = await load(cfg);
     projects = data.map((r) => {
       const o = cfg.overrides[r.name] || {};
