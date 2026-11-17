@@ -1,7 +1,8 @@
 :root{--bg:#111014;--surface:#18161d;--surface-2:#221f29;--line:#2d2935;--fg:#f1eef6;--muted:#a6a1b3;--faint:#736e81;--honey:#f4b740;--sun:#ffd23f;--ink:#1d1404;--coral:#ff7a59;--grad:linear-gradient(135deg,#ffd23f,#f4b740 40%,#ff7a59);--r:18px;--w:1160px}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:clip;color-scheme:dark}
-body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.6 Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{position:relative;margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.6 Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:absolute;top:0;left:0;right:0;height:900px;background:radial-gradient(800px 420px at 50% 230px,rgba(244,183,64,.2),transparent 70%),radial-gradient(700px 360px at 70% 120px,rgba(255,122,89,.13),transparent 70%);pointer-events:none;z-index:-1}
 a{color:inherit}
 img{max-width:100%;display:block}
 .wrap{max-width:var(--w);margin:0 auto;padding:0 24px}
@@ -21,7 +22,6 @@ a:focus-visible,button:focus-visible,.card:focus-visible{outline:2px solid var(-
 
 /* hero */
 .hero{position:relative;max-width:900px;padding:88px 24px 40px;display:flex;flex-direction:column;gap:34px}
-.hero::before{content:"";position:absolute;inset:-200px 0 auto;height:900px;background:radial-gradient(600px 380px at 25% 35%,rgba(244,183,64,.2),transparent 70%),radial-gradient(500px 300px at 80% 10%,rgba(255,122,89,.14),transparent 70%);pointer-events:none;z-index:-1}
 .hero-top{display:flex;align-items:center;gap:44px}
 .avatar{flex:none;width:170px;height:170px;border-radius:50%;object-fit:cover;padding:4px;background:var(--grad);box-shadow:0 20px 60px rgba(244,183,64,.18)}
 .hero-text{min-width:0;text-align:left}
