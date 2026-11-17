@@ -37,15 +37,19 @@ a:focus-visible,button:focus-visible,.card:focus-visible{outline:2px solid var(-
 .bio:not(.open) .bio-in{visibility:hidden}
 .cta{margin:26px 0 8px}
 
-/* links */
-.links{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-top:40px;padding-bottom:20px}
-.group{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;text-align:center}
-.pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.group .btn.ghost{background:var(--surface-2)}
-.group .btn.ghost:hover{background:#2a2632}
+/* socials */
+.socials{display:flex;gap:36px;justify-content:center;flex-wrap:wrap;margin:26px 0 40px}
+.sg{display:flex;flex-direction:column;align-items:center;gap:12px}
+.sg .eyebrow{margin:0;font-size:11px;color:var(--faint)}
+.row{display:flex;gap:6px}
+.ico{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--muted);text-decoration:none;transition:color .15s,transform .15s,background .15s}
+.ico svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ico:hover,.ico:focus-visible{color:var(--sun);transform:translateY(-2px);background:rgba(244,183,64,.1)}
+.ico::after{content:attr(data-label);position:absolute;top:100%;left:50%;translate:-50% 4px;padding:3px 8px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--fg);font:600 12px Figtree,sans-serif;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:3}
+.ico:hover::after,.ico:focus-visible::after{opacity:1}
 
 /* projects */
-.projects{padding-top:90px;padding-bottom:110px}
+.projects{padding-top:60px;padding-bottom:110px}
 .head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:36px}
 .tabs{display:flex;border:1px solid var(--line);border-radius:999px;padding:4px;background:var(--surface)}
 .tabs button{all:unset;box-sizing:border-box;cursor:pointer;font:700 13px "JetBrains Mono",monospace;padding:9px 18px;border-radius:999px;color:var(--muted);transition:background .15s,color .15s}
@@ -92,7 +96,6 @@ footer a{color:var(--muted)}
 
 @media (max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:700px){
-  .links{grid-template-columns:1fr}
   .grid{grid-template-columns:1fr}
   .hero{padding-top:48px}
   .projects{padding-top:60px;padding-bottom:80px}
