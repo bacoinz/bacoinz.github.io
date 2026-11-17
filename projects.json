@@ -1,0 +1,24 @@
+{
+  "overrides": {
+    "nectr":        { "category": "app",  "icon": "public/favicon.svg",           "description": "Share unreleased music privately and get feedback pinned to the exact second." },
+    "Freela":       { "category": "app",  "icon": "public/icon.svg",              "description": "Android app for freelancers to track earnings, pending payments and tax deadlines. No account, no internet." },
+    "AULA-Studio":  { "category": "app",  "icon": null,                           "description": "Portable Windows app for the AULA F108 Pro keyboard: screen GIFs, lighting, remapping and macros." },
+    "BuzzCast":     { "category": "app",  "icon": "public/buzz-logo.png",         "description": "Turn any phone into a Buzz! buzzer for PCSX2 and RPCS3, up to 8 players, nothing to install." },
+    "FC-Intel":     { "category": "game", "icon": "public/favicon.svg",           "description": "The football knowledge card game for you and your friends." },
+    "FootStop":     { "category": "game", "icon": "public/favicon.svg",           "description": "Stop, the football edition: name a footballer before your clock runs out." },
+    "Hidden-Eleven":{ "category": "game", "icon": "public/favicon.svg",           "description": "Uncover the hidden line-ups of legendary matches in real-time trivia." },
+    "Scout-Report": { "category": "game", "icon": "jogo/public/favicon.svg",      "description": "The football \"Guess Who\": ask, stamp and identify your friends' secret player." },
+    "Coach-Board":  { "category": "game", "icon": "jogo/public/favicon.svg",      "description": "A multiplayer football board game: build your club and win the league." }
+  },
+  "fallback": [
+    { "name": "nectr", "branch": "main", "has_pages": true, "homepage": "https://bacoinz.github.io/nectr/", "shots": ["cover.png","admin-library-desktop.png","admin-project-desktop.png","admin-track-desktop.png","guest-link-phone.png","guest-track-phone.png"] },
+    { "name": "Freela", "branch": "main", "has_pages": true, "homepage": "https://bacoinz.github.io/Freela/", "shots": ["cover.png","inicio.jpg","estatisticas.jpg","investimento.jpg"] },
+    { "name": "AULA-Studio", "branch": "main", "has_pages": false, "homepage": "", "shots": ["cover.png","keys.png","lighting.png","music.png","screen.png","settings.png"] },
+    { "name": "BuzzCast", "branch": "main", "has_pages": false, "homepage": "", "shots": ["cover.png","host.png","instr.png","keybinds.png","phones.png"] },
+    { "name": "FC-Intel", "branch": "main", "has_pages": false, "homepage": "https://fc-intel.bacoinz.workers.dev", "shots": ["cover.png","home-desktop.png","lobby-desktop.png","game-desktop.png","vote-desktop.png","podium-desktop.png"] },
+    { "name": "FootStop", "branch": "main", "has_pages": false, "homepage": "https://footstop.fc-intel.workers.dev", "shots": ["cover.png","home-desktop.png","lobby-desktop.png","round-desktop.png","wheel-desktop.png","table-desktop.png"] },
+    { "name": "Hidden-Eleven", "branch": "main", "has_pages": false, "homepage": "https://hidden-eleven.bacoinz.workers.dev", "shots": ["cover.png","start.png","lobby.png","game.png","match-sheet.png","round-end.png"] },
+    { "name": "Scout-Report", "branch": "main", "has_pages": false, "homepage": "https://scout-report.bacoinz.workers.dev", "shots": ["cover.png","menu.png","lobby.png","game.png","daily.png","standings.png"] },
+    { "name": "Coach-Board", "branch": "main", "has_pages": false, "homepage": "https://coach-board.bacoinz.workers.dev", "shots": ["capa-campeao-en.png","start.png","draft.png","auction.png","market.png","match.png","champion.png"] }
+  ]
+}
