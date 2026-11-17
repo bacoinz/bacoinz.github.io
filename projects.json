@@ -54,6 +54,12 @@
       "description": "A multiplayer football board game: build your club and win the league.",
       "description_pt": "Um jogo de tabuleiro de futebol multijogador: constrói o teu clube e ganha a liga.",
       "cover": "docs/capa.png"
+    },
+    "PES-KitLab": {
+      "category": "app",
+      "icon": "app-tauri/public/logo.png",
+      "description": "Portable kit editor for SP Football Life 2027: 3D preview, bulk generation and export to Sider.",
+      "description_pt": "Editor portátil de camisolas para o SP Football Life 2027: pré-visualização 3D, geração em massa e exportação para o Sider."
     }
   },
   "fallback": [
@@ -81,6 +87,19 @@
         "inicio.jpg",
         "estatisticas.jpg",
         "investimento.jpg"
+      ]
+    },
+    {
+      "name": "PES-KitLab",
+      "branch": "main",
+      "has_pages": false,
+      "homepage": "",
+      "shots": [
+        "cover.png",
+        "editor-3d.png",
+        "editor-texture.png",
+        "designs.png",
+        "teams.png"
       ]
     },
     {
@@ -128,7 +147,7 @@
       "name": "FootStop",
       "branch": "main",
       "has_pages": false,
-      "homepage": "https://footstop.fc-intel.workers.dev",
+      "homepage": "https://footstop.bacoinz.workers.dev",
       "shots": [
         "cover.png",
         "home-desktop.png",
