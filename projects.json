@@ -52,7 +52,8 @@
       "category": "game",
       "icon": "jogo/public/favicon.svg",
       "description": "A multiplayer football board game: build your club and win the league.",
-      "description_pt": "Um jogo de tabuleiro de futebol multijogador: constrói o teu clube e ganha a liga."
+      "description_pt": "Um jogo de tabuleiro de futebol multijogador: constrói o teu clube e ganha a liga.",
+      "cover": "docs/capa.png"
     }
   },
   "fallback": [

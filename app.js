@@ -174,8 +174,15 @@
       const im = el('img', 's' + (i === 0 ? ' on' : ''));
       im.alt = i === 0 ? `${p.title} ${t('cover')}` : `${p.title} ${t('shot')} ${i + 1}`;
       im.decoding = 'async';
-      const src = raw(p.name, p.branch, 'docs/screenshots/' + n);
-      if (i === 0) { im.loading = 'lazy'; im.src = src; } else { im.dataset.src = src; }
+      const src = raw(p.name, p.branch, n);
+      if (i === 0) {
+        im.loading = 'lazy';
+        // covers that are not 16:9 are shown whole instead of cropped
+        const fit = () => { if (im.naturalWidth && Math.abs(im.naturalWidth / im.naturalHeight - 16 / 9) > 0.03) im.classList.add('fit'); };
+        im.addEventListener('load', fit);
+        im.src = src;
+        if (im.complete) fit();
+      } else { im.dataset.src = src; }
       media.appendChild(im);
       return im;
     });
@@ -280,6 +287,12 @@
     if (projects.length) render();
   }));
 
+  function buildPaths(names, cover) {
+    const paths = names.map((n) => 'docs/screenshots/' + n);
+    if (!cover) return paths;
+    return [cover].concat(paths.filter((x) => x !== cover && !x.includes('/capa-')));
+  }
+
   /* ---------- init ---------- */
   applyStatic();
   (async () => {
@@ -296,7 +309,7 @@
         description: o.description || r.description || '',
         description_pt: o.description_pt || '',
         iconUrl: o.icon ? raw(r.name, r.branch || 'main', o.icon) : '',
-        shots: r.shots && r.shots.length ? r.shots : []
+        shots: buildPaths(r.shots || [], o.cover)
       };
     }).filter(Boolean);
     render();
