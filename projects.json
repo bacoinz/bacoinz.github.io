@@ -60,6 +60,12 @@
       "icon": "app-tauri/public/logo.png",
       "description": "Portable kit editor for SP Football Life 2027: 3D preview, bulk generation and export to Sider.",
       "description_pt": "Editor portátil de camisolas para o SP Football Life 2027: pré-visualização 3D, geração em massa e exportação para o Sider."
+    },
+    "Lite-UPS-Panel": {
+      "category": "app",
+      "icon": "docs/screenshots/icon.png",
+      "description": "A tiny native Windows tray app to monitor any USB UPS: status, events, energy report and safe shutdown, in ~23 MB of RAM.",
+      "description_pt": "Uma pequena app nativa de bandeja do Windows para monitorizar qualquer UPS USB: estado, eventos, relatório de energia e encerramento seguro, com ~23 MB de RAM."
     }
   },
   "fallback": [
@@ -100,6 +106,19 @@
         "editor-texture.png",
         "designs.png",
         "teams.png"
+      ]
+    },
+    {
+      "name": "Lite-UPS-Panel",
+      "branch": "main",
+      "has_pages": false,
+      "homepage": "",
+      "shots": [
+        "cover.png",
+        "status.png",
+        "events.png",
+        "config.png",
+        "ups.png"
       ]
     },
     {
